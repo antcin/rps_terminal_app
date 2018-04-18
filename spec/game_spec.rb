@@ -36,14 +36,15 @@ describe Game do
       expect(subject.computer_choice).to eq('r')
       # expect(['r', 'p', 's']).to include(subject.computer_choice)
     end
+  end
 
+  context "#check_input" do
     it "Raises an error if input is not 'r', 'p' or 's'" do
       allow(subject).to receive(:select).and_return 'strawberry'
 
-      expect(subject.select).to raise_error "Not a valid choice"
+      expect(subject.check_input(stdin_mock)).to raise_error "Not a valid choice"
     end
   end
-
 
   context "#outcome" do
 
