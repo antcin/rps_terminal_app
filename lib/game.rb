@@ -12,7 +12,12 @@ class Game
   end
 
   def select
-    @std_in.read
+    input = @std_in.read
+    @choices[input]
+  end
+
+  def choose
+    @weapon_selector.select
   end
 
   def check_input(select)

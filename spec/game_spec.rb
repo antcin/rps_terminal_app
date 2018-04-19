@@ -2,7 +2,7 @@ require "game"
 
 describe Game do
 
-  subject { Game.new(stdout_mock, stdin_mock)}
+  subject { Game.new(stdout_mock, stdin_mock, selector_mock)}
   let(:stdout_mock) { double() }
   let(:stdin_mock) { double() }
 
@@ -20,7 +20,6 @@ describe Game do
     it "It takes input from the user" do
       # arrange
       allow(stdin_mock).to receive(:read).and_return "r"
-
       # act
       expect(subject.select).to eq('r')
     end
@@ -34,7 +33,6 @@ describe Game do
 
       #assert
       expect(subject.computer_choice).to eq('r')
-      # expect(['r', 'p', 's']).to include(subject.computer_choice)
     end
   end
 
@@ -56,5 +54,4 @@ describe Game do
       expect(subject.outcome('r', 'p')).to eq 'Player wins'
     end
   end
-
 end
