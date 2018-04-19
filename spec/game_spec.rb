@@ -5,7 +5,6 @@ describe Game do
   subject { Game.new(stdout_mock, stdin_mock, selector_mock)}
   let(:stdout_mock) { double() }
   let(:stdin_mock) { double() }
-  let(:selector_mock) { double() }
 
   context "#prompt" do
     it "It prompts the user to select a weapon" do
@@ -22,18 +21,37 @@ describe Game do
       # arrange
       allow(stdin_mock).to receive(:read).and_return "r"
       # act
-      expect(subject.select).to eq(:rock)
+      expect(subject.select).to eq('r')
     end
   end
 
-  context "#choose" do
-    it "It selects a random weapom for the computer" do
-      # arrange
-      allow(selector_mock).to receive(:select).and_return :paper
+  context "#computer_choice" do
+    it "Computer selects a random weapon" do
+      #arrange
+      srand(0)
+      allow(subject).to receive(:computer_choice).and_return 'r'
 
-      # act/assert
-      expect(subject.choose).to eq(:paper)
+      #assert
+      expect(subject.computer_choice).to eq('r')
     end
   end
 
+  context "#check_input" do
+    it "Raises an error if input is not 'r', 'p' or 's'" do
+      allow(subject).to receive(:select).and_return 'strawberry'
+
+      expect(subject.check_input(stdin_mock)).to raise_error "Not a valid choice"
+    end
+  end
+
+  context "#outcome" do
+
+    it "returns draw" do
+      expect(subject.outcome('p', 'p')).to eq 'Draw'
+    end
+
+    it 'returns player wins' do
+      expect(subject.outcome('r', 'p')).to eq 'Player wins'
+    end
+  end
 end
